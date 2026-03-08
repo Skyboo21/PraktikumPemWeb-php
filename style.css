@@ -1,0 +1,418 @@
+/* Reset & Typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6; 
+    color: #333333; 
+    line-height: 1.6;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; 
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #0a192f;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.nav-logo span {
+    color: #0056b3; 
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #a8b2d1;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ffffff;
+}
+
+/* ================= HERO SECTION ================= */
+.hero {
+    height: 100vh;
+    background: url('landmark.jpg') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; 
+}
+
+.hero-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 50px 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 80%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #111111;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #444444; 
+}
+
+.btn-explore {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #0056b3; 
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-explore:hover {
+    background-color: #003d82;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.4);
+}
+
+/* ================= CONTAINER UMUM ================= */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title h2 {
+    font-size: 2.5rem;
+    color: #001f3f; 
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: #666666;
+    font-size: 1.1rem;
+}
+
+/* ================= TWITCH CAROUSEL SLIDER ================= */
+.twitch-slider-container {
+    position: relative;
+    width: 100%;
+    height: 480px; /* Tinggi absolut agar tata letak tidak pecah */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.twitch-track {
+    position: relative;
+    width: 100%;
+    max-width: 900px; /* Lebar lintasan kartu */
+    height: 100%;
+}
+
+.wisata-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Posisi awal menumpuk di tengah */
+    width: 320px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    
+    /* Animasi sangat mulus untuk posisi, ukuran, dan gelap-terang */
+    transition: all 0.5s ease-in-out;
+    
+    opacity: 0; 
+    z-index: 1;
+    pointer-events: none;
+}
+
+.img-wrapper {
+    width: 100%;
+    height: 220px;
+}
+
+.img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-content h3 {
+    color: #0056b3;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.card-content p {
+    color: #555555;
+    font-size: 0.95rem;
+}
+
+/* --- KELAS AJAIB (Dikontrol Javascript) --- */
+.wisata-card.active {
+    opacity: 1;
+    z-index: 10;
+    transform: translate(-50%, -50%) scale(1.1); /* Di tengah & Membesar */
+    filter: brightness(1); 
+    pointer-events: auto;
+}
+
+.wisata-card.prev {
+    opacity: 1;
+    z-index: 5;
+    transform: translate(-130%, -50%) scale(0.85); /* Di Kiri & Mengecil */
+    filter: brightness(0.4); 
+}
+
+.wisata-card.next {
+    opacity: 1;
+    z-index: 5;
+    transform: translate(30%, -50%) scale(0.85); /* Di Kanan & Mengecil */
+    filter: brightness(0.4); 
+}
+
+/* Tombol Slider Melayang */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 20; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.slider-btn:hover {
+    background-color: #003d82;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.left-btn { left: 10px; }
+.right-btn { right: 10px; }
+
+/* ================= KEUNGGULAN ================= */
+.keunggulan {
+    padding: 80px 20px;
+    background-color: #ffffff; 
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+}
+
+.keunggulan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.keunggulan-card {
+    text-align: center;
+    padding: 30px;
+    border-radius: 12px;
+    background: #f4f7f6; 
+    transition: transform 0.3s;
+}
+
+.keunggulan-card:hover {
+    transform: translateY(-5px);
+}
+
+.keunggulan-card .icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.keunggulan-card h3 {
+    color: #001f3f;
+    margin-bottom: 10px;
+}
+
+.keunggulan-card p {
+    color: #555555;
+}
+
+/* ================= TESTIMONI ================= */
+.testimoni {
+    padding: 80px 20px;
+    background-color: #e6f0fa; 
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+
+.testimoni-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto; 
+}
+
+.testimoni-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,86,179,0.08); 
+    position: relative;
+}
+
+.testimoni-card .quote {
+    font-style: italic;
+    color: #444444;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.testimoni-card .user-info h4 {
+    color: #0056b3;
+    margin-bottom: 3px;
+}
+
+.testimoni-card .user-info span {
+    font-size: 0.85rem;
+    color: #888888;
+}
+
+/* ================= FORM BUKU TAMU ================= */
+.form-section {
+    margin-top: 80px;
+    background-color: #0a192f; 
+    padding: 60px 20px;
+    border-radius: 20px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.form-container h2 {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.form-container p {
+    margin-bottom: 20px;
+    color: #8892b0;
+}
+
+.form-container ul {
+    color: #a8b2d1;
+}
+
+.input-group {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+    gap: 10px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #0056b3;
+}
+
+.input-group button {
+    padding: 15px 30px;
+    background-color: #0056b3;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.input-group button:hover {
+    background-color: #003d82;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    background-color: #020c1b; 
+    color: #8892b0;
+    text-align: center;
+    padding: 25px 20px;
+    margin-top: 50px;
+    font-size: 0.9rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .navbar { flex-direction: column; padding: 15px 20px; }
+    .nav-links { margin-top: 15px; gap: 15px; }
+    .hero { margin-top: 100px; }
+    .hero-content { padding: 30px 20px; width: 90%; }
+    .hero-content h1 { font-size: 2.2rem; }
+    .input-group { flex-direction: column; }
+    
+    /* Responsive Twitch Slider */
+    .wisata-card.active { transform: translate(-50%, -50%) scale(1); }
+    .wisata-card.prev { transform: translate(-100%, -50%) scale(0.8); opacity: 0.3; }
+    .wisata-card.next { transform: translate(0%, -50%) scale(0.8); opacity: 0.3; }
+    .left-btn { left: 0px; }
+    .right-btn { right: 0px; }
+}

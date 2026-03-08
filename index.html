@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>NusaGo - Eksplorasi Wisata Indonesia</title>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#beranda" class="nav-logo">Nusa<span>Go</span></a>
+        <ul class="nav-links">
+            <li><a href="#beranda">Beranda</a></li>
+            <li><a href="#destinasi">Destinasi</a></li>
+            <li><a href="#keunggulan">Layanan</a></li> 
+            <li><a href="#testimoni">Ulasan</a></li> 
+            <li><a href="#buku-tamu">Buku Tamu</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero" id="beranda">
+        <div class="hero-content">
+            <h1>Eksplorasi Pesona Nusantara</h1>
+            <p>Temukan surga wisata tersembunyi dan wujudkan liburan impianmu sekarang.</p>
+            <a href="#destinasi" class="btn-explore">Mulai Petualangan</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="daftar-wisata" id="destinasi">
+            <div class="section-title">
+                <h2>Rekomendasi Destinasi</h2>
+                <p>Pilihan terbaik untuk petualangan alam dan budaya Anda selanjutnya.</p>
+            </div>
+
+            <div class="twitch-slider-container">
+                <button class="slider-btn left-btn" onclick="geserTwitch(-1)">&#10094;</button>
+
+                <div class="twitch-track" id="twitchTrack">
+                    
+                    <article class="wisata-card">
+                        <div class="img-wrapper">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Borobudur-Nothwest-view.jpg/800px-Borobudur-Nothwest-view.jpg" alt="Candi Borobudur">
+                        </div>
+                        <div class="card-content">
+                            <h3>Candi Borobudur</h3>
+                            <p>Situs warisan dunia dengan pesona arsitektur kuno dan lanskap hijau di Magelang.</p>
+                        </div>
+                    </article>
+
+                    <article class="wisata-card">
+                        <div class="img-wrapper">
+                            <img src="pantaikuta.jpg" alt="Pantai Kuta">
+                        </div>
+                        <div class="card-content">
+                            <h3>Pantai Kuta, Bali</h3>
+                            <p>Nikmati deburan ombak dan keindahan matahari terbenam di pantai paling ikonik di Bali.</p>
+                        </div>
+                    </article>
+
+                    <article class="wisata-card">
+                        <div class="img-wrapper">
+                            <img src="rajaampat.jpg" alt="Raja Ampat">
+                        </div>
+                        <div class="card-content">
+                            <h3>Raja Ampat, Papua</h3>
+                            <p>Gugusan pulau karang eksotis dengan kekayaan biota laut yang tak tertandingi.</p>
+                        </div>
+                    </article>
+
+                    <article class="wisata-card">
+                        <div class="img-wrapper">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Bromo-Semeru-Batok-Widodaren.jpg/800px-Bromo-Semeru-Batok-Widodaren.jpg" alt="Gunung Bromo">
+                        </div>
+                        <div class="card-content">
+                            <h3>Gunung Bromo, Jatim</h3>
+                            <p>Saksikan pemandangan matahari terbit yang magis di lanskap vulkanik paling spektakuler.</p>
+                        </div>
+                    </article>
+
+                    <article class="wisata-card">
+                        <div class="img-wrapper">
+                            <img src="pulaukomodo.jpg" alt="Taman Nasional Komodo">
+                        </div>
+                        <div class="card-content">
+                            <h3>Pulau Komodo, NTT</h3>
+                            <p>Habitat asli kadal raksasa prasejarah dengan perbukitan savana dan pantai merah jambu.</p>
+                        </div>
+                    </article>
+
+                    <article class="wisata-card">
+                        <div class="img-wrapper">
+                            <img src="danautoba.jpg" alt="Danau Toba">
+                        </div>
+                        <div class="card-content">
+                            <h3>Danau Toba, Sumut</h3>
+                            <p>Danau vulkanik terbesar di dunia dengan keindahan Pulau Samosir di tengah-tengahnya.</p>
+                        </div>
+                    </article>
+
+                </div>
+
+                <button class="slider-btn right-btn" onclick="geserTwitch(1)">&#10095;</button>
+            </div>
+        </section>
+
+        <section class="keunggulan" id="keunggulan">
+            <div class="section-title">
+                <h2>Mengapa Bersama Kami?</h2>
+                <p>Kami memberikan layanan pariwisata terbaik untuk pengalaman tak terlupakan.</p>
+            </div>
+            <div class="keunggulan-grid">
+                <div class="keunggulan-card">
+                    <div class="icon">✈️</div>
+                    <h3>Rute Terlengkap</h3>
+                    <p>Akses ke ratusan destinasi wisata tersembunyi di seluruh pelosok nusantara.</p>
+                </div>
+                <div class="keunggulan-card">
+                    <div class="icon">🛡️</div>
+                    <h3>Transaksi Aman</h3>
+                    <p>Sistem pemesanan tiket dan paket wisata dengan keamanan enkripsi tingkat tinggi.</p>
+                </div>
+                <div class="keunggulan-card">
+                    <div class="icon">🤝</div>
+                    <h3>Pemandu Lokal</h3>
+                    <p>Didampingi oleh pemandu wisata profesional yang ramah dan berpengalaman.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimoni" id="testimoni">
+            <div class="section-title">
+                <h2>Apa Kata Mereka?</h2>
+                <p>Cerita seru dari para petualang yang sudah menggunakan layanan kami.</p>
+            </div>
+            <div class="testimoni-grid">
+                <div class="testimoni-card">
+                    <p class="quote">"Sistem ini sangat membantu saya menemukan hidden gem di Bali. Fiturnya mudah digunakan dan infonya sangat akurat!"</p>
+                    <div class="user-info">
+                        <h4>- Sarah Amalia</h4>
+                        <span>Travel Blogger</span>
+                    </div>
+                </div>
+                <div class="testimoni-card">
+                    <p class="quote">"Buku tamunya responsif. Saya langsung dapat rekomendasi trip ke Bromo. Website yang sangat profesional!"</p>
+                    <div class="user-info">
+                        <h4>- Budi Prakoso</h4>
+                        <span>Fotografer Alam</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section" id="buku-tamu">
+            <div class="form-container">
+                <h2>Buku Tamu Wisatawan</h2>
+                <p>Tinggalkan jejak Anda di sistem kami.</p>
+
+                <ul style="list-style-type: none; padding: 0; margin-bottom: 25px;">
+                    <li>✔ Dapatkan info destinasi wisata terbaru</li>
+                    <li>✔ Ikuti promo tiket liburan lokal</li>
+                </ul>
+
+                <form id="wisataForm">
+                    <div class="input-group">
+                        <input type="text" id="nama_input" placeholder="Masukkan Nama Lengkap Anda...">
+                        <button type="button" onclick="sambutWisatawan()">Kirim Jejak</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 NusaGo (Sistem Informasi Destinasi Wisata). Praktikum Pemrograman Web.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
