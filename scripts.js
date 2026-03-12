@@ -27,7 +27,7 @@ function geserTwitch(arah) {
     const cards = document.querySelectorAll('.wisata-card');
     indexTwitch += arah;
     
-    // Looping batas index
+    // Looping batas index       
     if (indexTwitch < 0) {
         indexTwitch = cards.length - 1;
     } else if (indexTwitch >= cards.length) {
@@ -37,10 +37,33 @@ function geserTwitch(arah) {
     updateTwitchCarousel();
 }
 
-// Menjalankan animasi slider otomatis saat web pertama kali dibuka
-window.onload = function() {
+// Menjalankan animasi slider dan cek login saat web pertama kali dibuka
+document.addEventListener('DOMContentLoaded', function() {
     updateTwitchCarousel();
-};
+    cekStatusLogin(); // Panggil fungsi cek login
+});
+
+// ================= FITUR LOGIN (LOCALSTORAGE) =================
+function cekStatusLogin() {
+    // Mengecek apakah ada nama user yang tersimpan di memori browser
+    var userName = localStorage.getItem("userName");
+    var navLogin = document.getElementById("nav-login");
+    var navUser = document.getElementById("nav-user");
+    var teksNamaUser = document.getElementById("teks-nama-user");
+
+    if (userName) {
+        // Jika sudah login: Sembunyikan tombol "Masuk", tampilkan Nama
+        if(navLogin) navLogin.style.display = "none";
+        if(navUser) {
+            navUser.style.display = "inline-block";
+            teksNamaUser.innerHTML = "👤 " + userName;
+        }
+    } else {
+        // Jika belum login: Tampilkan tombol "Masuk", sembunyikan Nama
+        if(navLogin) navLogin.style.display = "inline-block";
+        if(navUser) navUser.style.display = "none";
+    }
+}
 
 // ================= FORM LOGIC (SYARAT PRAKTIKUM) =================
 function sambutWisatawan() {
@@ -62,4 +85,4 @@ function sambutWisatawan() {
         alert("Pengiriman data dibatalkan. Silakan periksa kembali nama Anda jika ada yang salah ketik.");
         elemenInput.focus();
     }
-}   
+}
