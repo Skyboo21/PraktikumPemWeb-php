@@ -1,3 +1,18 @@
+<?php
+session_start();
+// Jika tidak ada session, tendang kembali ke login
+if(!isset($_SESSION['user_nama'])) {
+    header("Location: login.php");
+    exit;
+}
+
+// Fitur Logout
+if(isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,11 +24,11 @@
 <body class="bg-gray-100 font-sans text-gray-800">
 
     <nav class="bg-[#0a192f] text-white py-4 px-6 shadow-md flex justify-between items-center fixed w-full top-0 z-50">
-        <a href="index.html" class="text-2xl font-bold">Nusa<span class="text-blue-500">Go</span></a>
+        <a href="index.php" class="text-2xl font-bold">Nusa<span class="text-blue-500">Go</span></a>
         <div class="flex items-center space-x-4">
-            <span class="hidden md:inline-block font-medium">Halo, Sarah Amalia!</span>
-            <img src="https://ui-avatars.com/api/?name=Sarah+Amalia&background=0056b3&color=fff" alt="Profil" class="w-10 h-10 rounded-full border-2 border-blue-400">
-            <a href="index.html" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-bold transition">Logout</a>
+            <span class="hidden md:inline-block font-medium">Halo, <?= $_SESSION['user_nama']; ?>!</span>
+            <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['user_nama']); ?>&background=0056b3&color=fff" alt="Profil" class="w-10 h-10 rounded-full border-2 border-blue-400">
+            <a href="?logout=true" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-bold transition">Logout</a>
         </div>
     </nav>
 
@@ -57,24 +72,6 @@
                 </div>
             </div>
         </div>
-
     </div>
-<script>
-        // Mengubah sapaan sesuai nama user
-        var userName = localStorage.getItem("userName");
-        if (userName) {
-            // Jika login, ganti nama di layar
-            document.getElementById("namaDashboard").innerText = "Halo, " + userName + "!";
-        } else {
-            // Jika pengunjung memaksa masuk Dashboard tanpa login, tendang ke index
-            window.location.href = "index.html";
-        }
-
-        // Fungsi Logout
-        function prosesLogout() {
-            localStorage.removeItem("userName"); // Hapus data dari memori
-            window.location.href = "index.html"; // Kembali ke Landing Page
-        }
-    </script>
 </body>
 </html>

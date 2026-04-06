@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -17,13 +18,15 @@
             <li><a href="#testimoni">Ulasan</a></li> 
             <li><a href="#buku-tamu">Buku Tamu</a></li>
             
-            <li id="nav-login">
-                <a href="login.html" style="background-color: #0056b3; padding: 8px 20px; border-radius: 5px; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Masuk</a>
-            </li>
-            
-            <li id="nav-user" style="display: none;">
-                <a href="dashboard.html" id="teks-nama-user" style="background-color: #f4f7f6; color: #0056b3; padding: 8px 20px; border-radius: 5px; font-weight: bold; border: 2px solid #0056b3;">👤 Halo, User</a>
-            </li>
+            <?php if(isset($_SESSION['user_nama'])): ?>
+                <li>
+                    <a href="dashboard.php" style="background-color: #f4f7f6; color: #0056b3; padding: 8px 20px; border-radius: 5px; font-weight: bold; border: 2px solid #0056b3;">👤 Halo, <?= $_SESSION['user_nama']; ?></a>
+                </li>
+            <?php else: ?>
+                <li>
+                    <a href="login.php" style="background-color: #0056b3; padding: 8px 20px; border-radius: 5px; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Masuk</a>
+                </li>
+            <?php endif; ?>
         </ul>
     </nav>
 
@@ -113,48 +116,49 @@
             </div>
         </section>
 
-        <section class="keunggulan" id="keunggulan">
+        </div>
+<section class="keunggulan" id="keunggulan">
             <div class="section-title">
-                <h2>Mengapa Bersama Kami?</h2>
-                <p>Kami memberikan layanan pariwisata terbaik untuk pengalaman tak terlupakan.</p>
+                <h2>Layanan Kami</h2>
+                <p>Nikmati kemudahan eksplorasi wisata bersama NusaGo.</p>
             </div>
             <div class="keunggulan-grid">
                 <div class="keunggulan-card">
-                    <div class="icon">✈️</div>
-                    <h3>Rute Terlengkap</h3>
-                    <p>Akses ke ratusan destinasi wisata tersembunyi di seluruh pelosok nusantara.</p>
+                    <div class="icon">🌍</div>
+                    <h3>Jelajah Bebas</h3>
+                    <p>Temukan destinasi tersembunyi di seluruh pelosok negeri.</p>
                 </div>
                 <div class="keunggulan-card">
                     <div class="icon">🛡️</div>
-                    <h3>Transaksi Aman</h3>
-                    <p>Sistem pemesanan tiket dan paket wisata dengan keamanan enkripsi tingkat tinggi.</p>
+                    <h3>Aman & Terpercaya</h3>
+                    <p>Informasi valid dan panduan lengkap untuk liburanmu.</p>
                 </div>
                 <div class="keunggulan-card">
-                    <div class="icon">🤝</div>
-                    <h3>Pemandu Lokal</h3>
-                    <p>Didampingi oleh pemandu wisata profesional yang ramah dan berpengalaman.</p>
+                    <div class="icon">💡</div>
+                    <h3>Rekomendasi Cerdas</h3>
+                    <p>Dapatkan saran wisata sesuai dengan minat dan gayamu.</p>
                 </div>
             </div>
         </section>
 
         <section class="testimoni" id="testimoni">
             <div class="section-title">
-                <h2>Apa Kata Mereka?</h2>
-                <p>Cerita seru dari para petualang yang sudah menggunakan layanan kami.</p>
+                <h2>Ulasan Wisatawan</h2>
+                <p>Apa kata mereka yang sudah menjelajah bersama kami?</p>
             </div>
             <div class="testimoni-grid">
                 <div class="testimoni-card">
-                    <p class="quote">"Sistem ini sangat membantu saya menemukan hidden gem di Bali. Fiturnya mudah digunakan dan infonya sangat akurat!"</p>
+                    <p class="quote">"Liburan ke Bromo jadi lebih gampang berkat info dari NusaGo. Keren banget webnya!"</p>
                     <div class="user-info">
-                        <h4>- Sarah Amalia</h4>
-                        <span>Travel Blogger</span>
+                        <h4>Budi Santoso</h4>
+                        <span>Traveler Enthusiast</span>
                     </div>
                 </div>
                 <div class="testimoni-card">
-                    <p class="quote">"Buku tamunya responsif. Saya langsung dapat rekomendasi trip ke Bromo. Website yang sangat profesional!"</p>
+                    <p class="quote">"Rekomendasi Raja Ampat-nya pas banget. Interface webnya juga enak dilihat."</p>
                     <div class="user-info">
-                        <h4>- Budi Prakoso</h4>
-                        <span>Fotografer Alam</span>
+                        <h4>Siti Aminah</h4>
+                        <span>Nature Lover</span>
                     </div>
                 </div>
             </div>
@@ -162,29 +166,21 @@
 
         <section class="form-section" id="buku-tamu">
             <div class="form-container">
-                <h2>Buku Tamu Wisatawan</h2>
-                <p>Tinggalkan jejak Anda di sistem kami.</p>
-
-                <ul style="list-style-type: none; padding: 0; margin-bottom: 25px;">
-                    <li>✔ Dapatkan info destinasi wisata terbaru</li>
-                    <li>✔ Ikuti promo tiket liburan lokal</li>
-                </ul>
-
-                <form id="wisataForm">
+                <h2>Buku Tamu</h2>
+                <p>Tinggalkan jejak kunjunganmu di website NusaGo!</p>
+                <form id="wisataForm" onsubmit="event.preventDefault(); sambutWisatawan();">
                     <div class="input-group">
-                        <input type="text" id="nama_input" placeholder="Masukkan Nama Lengkap Anda...">
-                        <button type="button" onclick="sambutWisatawan()">Kirim Jejak</button>
+                        <input type="text" id="nama_input" placeholder="Masukkan nama Anda..." required>
+                        <button type="submit">Kirim Jejak</button>
                     </div>
                 </form>
             </div>
         </section>
-
-    </div>
-
+        
     <footer class="footer">
         <p>&copy; 2026 NusaGo (Sistem Informasi Destinasi Wisata). Praktikum Pemrograman Web.</p>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
