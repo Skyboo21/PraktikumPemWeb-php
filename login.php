@@ -12,9 +12,16 @@ if(isset($_POST['login'])) {
         $data = mysqli_fetch_assoc($query);
         
         if(password_verify($password, $data['password'])) {
-            // Simpan Session PHP
+            // Simpan identitas ke memori (Session)
             $_SESSION['user_nama'] = $data['nama'];
-            echo "<script>alert('Selamat datang, " . $data['nama'] . "!'); window.location.href='index.php';</script>";
+            $_SESSION['role'] = $data['role']; // INI YANG BIKIN SISTEM TAHU KAMU ADMIN
+
+            // Logika Pembagian Jalur (Multi-role)
+            if($data['role'] == 'admin') {
+                echo "<script>alert('Selamat datang Admin " . $data['nama'] . "!'); window.location.href='admin_dashboard.php';</script>";
+            } else {
+                echo "<script>alert('Selamat datang, " . $data['nama'] . "!'); window.location.href='dashboard.php';</script>";
+            }
         } else {
             echo "<script>alert('Gagal! Password yang Anda masukkan SALAH.');</script>";
         }
