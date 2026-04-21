@@ -28,8 +28,7 @@ if(isset($_POST['register'])) {
     <title>Daftar - NusaGo</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Bromo-Semeru-Batok-Widodaren.jpg/1200px-Bromo-Semeru-Batok-Widodaren.jpg')] bg-cover bg-center bg-no-repeat h-screen flex items-center justify-center">
-
+<body class="bg-[url('gunungbromo.jpg')] bg-cover bg-center bg-no-repeat h-screen flex items-center justify-center">
     <div class="absolute inset-0 bg-black/50"></div>
 
     <div class="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl shadow-2xl w-[90%] max-w-md text-white mt-10 mb-10">

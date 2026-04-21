@@ -52,6 +52,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
     <meta charset="UTF-8">
     <title>Panel Admin - NusaGo</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-50 flex h-screen font-sans">
 
@@ -77,6 +78,10 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                     <h3 class="text-gray-500 text-sm">Total User</h3>
                     <p class="text-3xl font-bold"><?php $q = mysqli_query($conn, "SELECT COUNT(*) as t FROM users WHERE role='user'"); $d = mysqli_fetch_assoc($q); echo $d['t']; ?></p>
                 </div>
+                <div class="mt-8 bg-white p-6 rounded-lg shadow border-t-4 border-yellow-500">
+                <h3 class="text-xl font-bold mb-4">Statistik Kunjungan Wisatawan Mancanegara (Januari 2026)</h3>
+                <canvas id="wisataChart" width="400" height="150"></canvas>
+            </div>
                 <div class="bg-white p-6 rounded-lg shadow border-t-4 border-green-500">
                     <h3 class="text-gray-500 text-sm">Destinasi</h3>
                     <p class="text-3xl font-bold"><?php $q = mysqli_query($conn, "SELECT COUNT(*) as t FROM destinasi"); $d = mysqli_fetch_assoc($q); echo $d['t'] ?? 0; ?></p>
@@ -153,5 +158,55 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
         <?php endif; ?>
         
     </main>
+<script>
+    <?php if($page == 'dashboard'): ?>
+    // Mengambil data JSON dari api.php
+    fetch('api.php')
+        .then(response => response.json())
+        .then(data => {
+            // Kita ambil 5 bandara kedatangan utama saja agar grafik tidak terlalu padat
+            // (2: Ngurah Rai, 3: Soetta, 4: Juanda, 5: Kualanamu, 6: Husein S)
+            const pintuUtama = [2, 3, 4, 5, 6]; 
+            const labelsBandara = [];
+            const dataKunjungan = [];
+
+            // Memisahkan label dan jumlah kunjungan
+            data.vervar.forEach(item => {
+                if(pintuUtama.includes(item.val)) {
+                    labelsBandara.push(item.label.replace(/(<([^>]+)>)/gi, "")); // Bersihkan tag HTML
+                    
+                    // Membuat struktur kunci untuk mencari data (format BPS: [id_vervar]115001261)
+                    const kodeBPS = item.val + "115001261"; 
+                    
+                    // Memasukkan angka ke dalam array
+                    const jumlah = data.datacontent[kodeBPS] ? data.datacontent[kodeBPS] : 0;
+                    dataKunjungan.push(jumlah);
+                }
+            });
+
+            // Menggambar grafik dengan Chart.js
+            const ctx = document.getElementById('wisataChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar', // Tipe grafik batang
+                data: {
+                    labels: labelsBandara,
+                    datasets: [{
+                        label: 'Jumlah Kunjungan Wisman',
+                        data: dataKunjungan,
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)', // Warna biru Tailwind
+                        borderColor: 'rgba(29, 78, 216, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        })
+        .catch(error => console.error('Ups, gagal memuat data:', error));
+    <?php endif; ?>
+    </script>
 </body>
 </html>
