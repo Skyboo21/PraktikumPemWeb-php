@@ -2,7 +2,7 @@
 session_start(); 
 if(isset($_GET['logout'])) {
     session_destroy(); 
-    header("Location: index.php"); 
+    header("Location: index.html"); 
     exit;
 }
 ?>
@@ -17,9 +17,9 @@ if(isset($_GET['logout'])) {
 <body style="background-color: #f4f7f6; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh;">
 
     <nav class="navbar">
-        <a href="index.php" class="nav-logo">Nusa<span>Go</span></a>
+        <a href="index.html" class="nav-logo">Nusa<span>Go</span></a>
         <ul class="nav-links">
-            <li><a href="index.php">Beranda</a></li>
+            <li><a href="index.html">Beranda</a></li>
             <li><a href="destinasi.php">Destinasi</a></li>
             <li><a href="layanan.php">Layanan</a></li> 
             <li><a href="ulasan.php">Ulasan</a></li> 

@@ -1,10 +1,3 @@
-<?php 
-session_start(); 
-if(isset($_GET['logout'])) {
-    session_destroy(); 
-    header("Location: index.php"); 
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -17,27 +10,15 @@ if(isset($_GET['logout'])) {
 <body style="background-color: #f4f7f6; margin: 0; padding: 0;">
 
     <nav class="navbar">
-        <a href="index.php" class="nav-logo">Nusa<span>Go</span></a>
+        <a href="index.html" class="nav-logo">Nusa<span>Go</span></a>
         <ul class="nav-links">
-            <li><a href="index.php">Beranda</a></li>
+            <li><a href="index.html">Beranda</a></li>
             <li><a href="destinasi.php" style="color: #ffffff; border-bottom: 2px solid #0056b3;">Destinasi</a></li>
             <li><a href="layanan.php">Layanan</a></li> 
             <li><a href="ulasan.php">Ulasan</a></li> 
             <li><a href="buku_tamu.php">Buku Tamu</a></li>
             
-            <?php if(isset($_SESSION['user_nama'])): ?>
-                <li>
-                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
-                        <a href="admin_dashboard.php" class="btn-user">🛡️ Panel Admin</a>
-                    <?php else: ?>
-                        <a href="dashboard.php" class="btn-user">👤 Halo, <?= $_SESSION['user_nama']; ?></a>
-                    <?php endif; ?>
-                </li>
-            <?php else: ?>
-                <li>
-                    <a href="login.php" class="btn-login">Masuk</a>
-                </li>
-            <?php endif; ?>
+            <div id="user-menu-area" style="display: flex; align-items: center; gap: 15px;"></div>
         </ul>
     </nav>
 

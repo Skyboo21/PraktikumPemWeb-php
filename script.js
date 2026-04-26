@@ -3,21 +3,15 @@ let indexTwitch = 0;
 
 function updateTwitchCarousel() {
     const cards = document.querySelectorAll('.wisata-card');
-    if(cards.length === 0) return; // Mencegah error jika kartu tidak ditemukan
+    if(cards.length === 0) return; 
     
     const totalCards = cards.length;
+    cards.forEach(card => card.classList.remove('active', 'prev', 'next'));
 
-    // Bersihkan semua class
-    cards.forEach(card => {
-        card.classList.remove('active', 'prev', 'next');
-    });
-
-    // Tentukan urutan
     let center = indexTwitch;
     let left = (indexTwitch - 1 + totalCards) % totalCards;
     let right = (indexTwitch + 1) % totalCards;
 
-    // Berikan class
     cards[center].classList.add('active');
     cards[left].classList.add('prev');
     cards[right].classList.add('next');
@@ -26,43 +20,9 @@ function updateTwitchCarousel() {
 function geserTwitch(arah) {
     const cards = document.querySelectorAll('.wisata-card');
     indexTwitch += arah;
-    
-    // Looping batas index       
-    if (indexTwitch < 0) {
-        indexTwitch = cards.length - 1;
-    } else if (indexTwitch >= cards.length) {
-        indexTwitch = 0;
-    }
-    
+    if (indexTwitch < 0) indexTwitch = cards.length - 1;
+    else if (indexTwitch >= cards.length) indexTwitch = 0;
     updateTwitchCarousel();
-}
-
-// Menjalankan animasi slider dan cek login saat web pertama kali dibuka
-document.addEventListener('DOMContentLoaded', function() {
-    updateTwitchCarousel();
-    cekStatusLogin(); // Panggil fungsi cek login
-});
-
-// ================= FITUR LOGIN (LOCALSTORAGE) =================
-function cekStatusLogin() {
-    // Mengecek apakah ada nama user yang tersimpan di memori browser
-    var userName = localStorage.getItem("userName");
-    var navLogin = document.getElementById("nav-login");
-    var navUser = document.getElementById("nav-user");
-    var teksNamaUser = document.getElementById("teks-nama-user");
-
-    if (userName) {
-        // Jika sudah login: Sembunyikan tombol "Masuk", tampilkan Nama
-        if(navLogin) navLogin.style.display = "none";
-        if(navUser) {
-            navUser.style.display = "inline-block";
-            teksNamaUser.innerHTML = "👤 " + userName;
-        }
-    } else {
-        // Jika belum login: Tampilkan tombol "Masuk", sembunyikan Nama
-        if(navLogin) navLogin.style.display = "inline-block";
-        if(navUser) navUser.style.display = "none";
-    }
 }
 
 // ================= FORM LOGIC (SYARAT PRAKTIKUM) =================
@@ -71,18 +31,46 @@ function sambutWisatawan() {
     var namaWisatawan = elemenInput.value.trim();
 
     if (namaWisatawan === "") {
-        alert("Oops! Mohon masukkan nama Anda terlebih dahulu sebelum mengirim jejak.");
+        alert("Oops! Mohon masukkan nama Anda terlebih dahulu.");
         elemenInput.focus(); 
         return; 
     }
-
-    var verifikasi = confirm("Apakah Anda yakin ingin mengirim data kunjungan atas nama:\n" + namaWisatawan + "?");
-
+    var verifikasi = confirm("Kirim data atas nama:\n" + namaWisatawan + "?");
     if (verifikasi === true) {
-        alert("Sip! Terima kasih Kak " + namaWisatawan + ", data kunjungan Anda berhasil diverifikasi dan disimpan.");
+        alert("Terima kasih Kak " + namaWisatawan + ", data tersimpan.");
         document.getElementById("wisataForm").reset(); 
-    } else {
-        alert("Pengiriman data dibatalkan. Silakan periksa kembali nama Anda jika ada yang salah ketik.");
-        elemenInput.focus();
     }
 }
+
+// --- SISTEM AUTENTIKASI FRONTEND ---
+document.addEventListener("DOMContentLoaded", async () => {
+    // Jalankan animasi gambar destinasi
+    updateTwitchCarousel();
+
+    const userMenuArea = document.getElementById('user-menu-area');
+    if(userMenuArea) {
+        try {
+            // Cek apakah ada user yang sedang login
+            const response = await fetch('api/cek_session.php');
+            const data = await response.json();
+
+            if (data.status === 'logged_in') {
+                let menuHTML = '';
+                if (data.role === 'admin') {
+                    menuHTML = `<li><a href="admin_dashboard.php" class="btn-user">🛡️ Panel Admin</a></li>`;
+                } else {
+                    menuHTML = `<li><a href="dashboard.php" class="btn-user">👤 Halo, ${data.nama}</a></li>`;
+                }
+                menuHTML += `<li><a href="login.php?logout=true" style="background-color: #ef4444; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-left: 10px;">Logout</a></li>`;
+                userMenuArea.innerHTML = menuHTML;
+            } else {
+                // Jika belum login, tampilkan tombol Masuk
+                userMenuArea.innerHTML = `<li><a href="login.php" class="btn-login">Masuk</a></li>`;
+            }
+        } catch (error) {
+            console.error("Gagal terhubung ke API:", error);
+            // Tetap tampilkan tombol Masuk walau terjadi error API
+            userMenuArea.innerHTML = `<li><a href="login.php" class="btn-login">Masuk</a></li>`;
+        }
+    }
+});
