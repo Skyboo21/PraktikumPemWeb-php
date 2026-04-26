@@ -148,7 +148,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
     <script>
     <?php if($page == 'dashboard'): ?>
-    fetch('api/data_bps.php')
+    fetch('data_bps.php')
         .then(response => response.json())
         .then(data => {
             // ... (sisa kodemu di bawahnya biarkan sama persis)
