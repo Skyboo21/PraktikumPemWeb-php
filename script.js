@@ -44,32 +44,27 @@ function sambutWisatawan() {
 
 // --- SISTEM AUTENTIKASI FRONTEND ---
 document.addEventListener("DOMContentLoaded", async () => {
-    // Jalankan animasi gambar destinasi
     updateTwitchCarousel();
 
     const userMenuArea = document.getElementById('user-menu-area');
     if(userMenuArea) {
         try {
-            // Cek apakah ada user yang sedang login
-            const response = await fetch('api/cek_session.php');
+            // PERBAIKAN: Hapus 'api/' dan tambahkan cache: 'no-store'
+            const response = await fetch('cek_session.php', { cache: 'no-store' });
             const data = await response.json();
 
             if (data.status === 'logged_in') {
-                let menuHTML = '';
                 if (data.role === 'admin') {
-                    menuHTML = `<li><a href="admin_dashboard.php" class="btn-user">🛡️ Panel Admin</a></li>`;
+                    userMenuArea.innerHTML = `<li><a href="admin_dashboard.php" class="btn-user">🛡️ Panel Admin</a></li>`;
                 } else {
-                    menuHTML = `<li><a href="dashboard.php" class="btn-user">👤 Halo, ${data.nama}</a></li>`;
+                    userMenuArea.innerHTML = `<li><a href="dashboard.php" class="btn-user">👤 Halo, ${data.nama}</a></li>`;
                 }
-                menuHTML += `<li><a href="login.php?logout=true" style="background-color: #ef4444; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-left: 10px;">Logout</a></li>`;
-                userMenuArea.innerHTML = menuHTML;
+                userMenuArea.innerHTML += `<li><a href="login.php?logout=true" style="background-color: #ef4444; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-left: 10px;">Logout</a></li>`;
             } else {
-                // Jika belum login, tampilkan tombol Masuk
                 userMenuArea.innerHTML = `<li><a href="login.php" class="btn-login">Masuk</a></li>`;
             }
         } catch (error) {
             console.error("Gagal terhubung ke API:", error);
-            // Tetap tampilkan tombol Masuk walau terjadi error API
             userMenuArea.innerHTML = `<li><a href="login.php" class="btn-login">Masuk</a></li>`;
         }
     }
