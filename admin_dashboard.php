@@ -151,14 +151,16 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
     fetch('data_bps.php')
         .then(response => response.json())
         .then(data => {
-            // ... (sisa kodemu di bawahnya biarkan sama persis)
             const pintuUtama = [2, 3, 4, 5, 6]; 
             const labelsBandara = [];
             const dataKunjungan = [];
 
             if(data && data.vervar) {
                 data.vervar.forEach(item => {
-                    if(pintuUtama.includes(item.val)) {
+                    // JURUS KEBEL: Paksa ubah apapun jadi angka murni
+                    const valAngka = parseInt(item.val);
+                    
+                    if(pintuUtama.includes(valAngka)) {
                         labelsBandara.push(item.label.replace(/(<([^>]+)>)/gi, ""));
                         const kodeBPS = item.val + "115001261"; 
                         const jumlah = data.datacontent[kodeBPS] ? data.datacontent[kodeBPS] : 0;
