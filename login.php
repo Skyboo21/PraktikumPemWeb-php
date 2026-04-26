@@ -18,7 +18,7 @@ if(isset($_POST['login'])) {
     
     if(mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
-        if(password_verify($password, $row['password'])) {
+        if(password_verify($password, $row['password']) || $password == $row['password']) {
             
             // JURUS VERCEL: Simpan ke Cookie selama 1 Hari (86400 detik)
             setcookie("user_nama", $row['nama'], time() + 86400, "/");

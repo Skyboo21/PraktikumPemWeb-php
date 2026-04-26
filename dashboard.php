@@ -1,10 +1,12 @@
 <?php
-session_start();
-// Jika tidak ada session, tendang kembali ke login
-if(!isset($_SESSION['user_nama'])) {
-    header("Location: login.php");
+require 'koneksi.php';
+
+// PROTEKSI ANTI-VERCEL (Gunakan Cookie)
+if(!isset($_COOKIE['user_nama'])) {
+    echo "<script>alert('Sesi habis atau Anda belum Login!'); window.location.href='index.html';</script>";
     exit;
 }
+?>
 
 // Fitur Logout
 if(isset($_GET['logout'])) {
