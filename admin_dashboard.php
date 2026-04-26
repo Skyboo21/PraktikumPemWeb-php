@@ -115,7 +115,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             </div>
 
         <?php elseif($page == 'edit_user'): ?>
-             <?php 
+            <?php 
             $id = $_GET['id']; 
             $q = mysqli_query($conn, "SELECT * FROM users WHERE id='$id'"); 
             $d = mysqli_fetch_assoc($q); 
@@ -145,5 +145,51 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             </form>
         <?php endif; ?>
     </main>
-    </body>
+
+    <script>
+    <?php if($page == 'dashboard'): ?>
+    // Fetch data dari file data_bps.php yang aman dari gangguan Vercel
+    fetch('data_bps.php')
+        .then(response => response.json())
+        .then(data => {
+            const pintuUtama = [2, 3, 4, 5, 6]; 
+            const labelsBandara = [];
+            const dataKunjungan = [];
+
+            if(data && data.vervar) {
+                data.vervar.forEach(item => {
+                    if(pintuUtama.includes(item.val)) {
+                        labelsBandara.push(item.label.replace(/(<([^>]+)>)/gi, ""));
+                        const kodeBPS = item.val + "115001261"; 
+                        const jumlah = data.datacontent[kodeBPS] ? data.datacontent[kodeBPS] : 0;
+                        dataKunjungan.push(jumlah);
+                    }
+                });
+
+                const ctx = document.getElementById('wisataChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsBandara,
+                        datasets: [{
+                            label: 'Jumlah Kunjungan Wisman',
+                            data: dataKunjungan,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(29, 78, 216, 1)',
+                            borderWidth: 2,
+                            borderRadius: 5
+                        }]
+                    },
+                    options: { 
+                        maintainAspectRatio: false,
+                        responsive: true, 
+                        scales: { y: { beginAtZero: true } } 
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Gagal memuat grafik:', error));
+    <?php endif; ?>
+    </script>
+</body>
 </html>
