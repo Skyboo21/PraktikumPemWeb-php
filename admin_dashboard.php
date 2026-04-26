@@ -148,10 +148,10 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
     <script>
     <?php if($page == 'dashboard'): ?>
-    // Fetch data dari file data_bps.php yang aman dari gangguan Vercel
-    fetch('data_bps.php')
+    fetch('api/data_bps.php')
         .then(response => response.json())
         .then(data => {
+            // ... (sisa kodemu di bawahnya biarkan sama persis)
             const pintuUtama = [2, 3, 4, 5, 6]; 
             const labelsBandara = [];
             const dataKunjungan = [];
