@@ -1,10 +1,10 @@
 <?php
-session_start(); // Kunci utamanya kembali pakai Session
 require 'koneksi.php';
 
-// LOGIKA LOGOUT
+// LOGIKA LOGOUT (Menghapus Cookie)
 if(isset($_GET['logout'])) {
-    session_destroy();
+    setcookie("user_nama", "", time() - 3600, "/");
+    setcookie("role", "", time() - 3600, "/");
     header("Location: index.html");
     exit;
 }
@@ -20,14 +20,14 @@ if(isset($_POST['login'])) {
         $row = mysqli_fetch_assoc($result);
         if(password_verify($password, $row['password'])) {
             
-            // Simpan ke Session
-            $_SESSION['user_nama'] = $row['nama'];
-            $_SESSION['role'] = strtolower($row['role']); // Diubah ke huruf kecil agar seragam
+            // JURUS VERCEL: Simpan ke Cookie selama 1 Hari (86400 detik)
+            setcookie("user_nama", $row['nama'], time() + 86400, "/");
+            setcookie("role", strtolower($row['role']), time() + 86400, "/");
             
-            if($_SESSION['role'] == 'admin') {
+            if(strtolower($row['role']) == 'admin') {
                 header("Location: admin_dashboard.php");
             } else {
-                header("Location: dashboard.php");
+                header("Location: dashboard.php"); // Pastikan file dashboard.php ada ya!
             }
             exit;
         }
