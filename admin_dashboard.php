@@ -1,8 +1,40 @@
+<?php
+require 'koneksi.php';
+
+// 1. PROTEKSI ANTI-VERCEL (Gunakan Cookie)
+if(!isset($_COOKIE['user_nama']) || strtolower($_COOKIE['role']) != 'admin') {
+    echo "<script>alert('Akses Ditolak! Anda harus Login sebagai Admin.'); window.location.href='index.html';</script>";
+    exit;
+}
+
+// 2. LOGIKA HAPUS USER
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+    $id = $_GET['id'];
+    mysqli_query($conn, "DELETE FROM users WHERE id='$id'");
+    header("Location: admin_dashboard.php?page=kelola_user");
+    exit;
+}
+
+// 3. LOGIKA UPDATE USER
+if (isset($_POST['update_user'])) {
+    $id = $_POST['id'];
+    $nama = $_POST['nama'];
+    $email = $_POST['email'];
+    $role = $_POST['role'];
+    mysqli_query($conn, "UPDATE users SET nama='$nama', email='$email', role='$role' WHERE id='$id'");
+    echo "<script>alert('User Berhasil Diperbarui!'); window.location.href='admin_dashboard.php?page=kelola_user';</script>";
+    exit;
+}
+
+// 4. PENENTU HALAMAN (INI YANG TADI HILANG!)
+$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Panel Admin - NusaGo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - NusaGo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
