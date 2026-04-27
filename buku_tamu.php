@@ -19,6 +19,13 @@ if(isset($_GET['logout'])) {
 
     <nav class="navbar">
         <a href="index.html" class="nav-logo">Nusa<span>Go</span></a>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
         <ul class="nav-links">
             <li><a href="index.html">Beranda</a></li>
             <li><a href="destinasi.php">Destinasi</a></li>
