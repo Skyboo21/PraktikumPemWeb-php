@@ -27,7 +27,7 @@ if(isset($_GET['logout'])) {
             <span></span>
         </div>
         
-        <ul class="nav-links">
+        <ul class="nav-links" id="nav-links">
             <li><a href="index.html">Beranda</a></li>
             <li><a href="destinasi.php" style="color: #ffffff; border-bottom: 2px solid #0056b3;">Destinasi</a></li>
             <li><a href="layanan.php">Layanan</a></li> 
