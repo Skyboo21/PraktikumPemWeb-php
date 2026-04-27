@@ -1,32 +1,33 @@
 <?php
 require 'koneksi.php';
 
-// 1. PROTEKSI ANTI-VERCEL (Gunakan Cookie)
+// 1. PROTEKSI ANTI-VERCEL
 if(!isset($_COOKIE['user_nama']) || strtolower($_COOKIE['role']) != 'admin') {
     echo "<script>alert('Akses Ditolak! Anda harus Login sebagai Admin.'); window.location.href='index.html';</script>";
     exit;
 }
 
-// 2. LOGIKA HAPUS USER
-if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
-    $id = $_GET['id'];
-    mysqli_query($conn, "DELETE FROM users WHERE id='$id'");
+// 2. LOGIKA HAPUS USER (Kini menggunakan Email)
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['email'])) {
+    $email_hapus = $_GET['email'];
+    mysqli_query($conn, "DELETE FROM users WHERE email='$email_hapus'");
     header("Location: admin_dashboard.php?page=kelola_user");
     exit;
 }
 
-// 3. LOGIKA UPDATE USER
+// 3. LOGIKA UPDATE USER (Kini menggunakan Email)
 if (isset($_POST['update_user'])) {
-    $id = $_POST['id'];
+    $email_lama = $_POST['email_lama']; // Menyimpan email asli sebelum diedit
     $nama = $_POST['nama'];
-    $email = $_POST['email'];
+    $email_baru = $_POST['email'];
     $role = $_POST['role'];
-    mysqli_query($conn, "UPDATE users SET nama='$nama', email='$email', role='$role' WHERE id='$id'");
+    
+    mysqli_query($conn, "UPDATE users SET nama='$nama', email='$email_baru', role='$role' WHERE email='$email_lama'");
     echo "<script>alert('User Berhasil Diperbarui!'); window.location.href='admin_dashboard.php?page=kelola_user';</script>";
     exit;
 }
 
-// 4. PENENTU HALAMAN (INI YANG TADI HILANG!)
+// 4. PENENTU HALAMAN
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 ?>
 <!DOCTYPE html>
@@ -114,8 +115,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                                 </span>
                             </td>
                             <td class="p-4 text-center">
-                                <a href="?page=edit_user&id=<?= $row['id'] ?>" class="text-blue-600 font-bold hover:underline mr-3">Edit</a>
-                                <a href="?page=kelola_user&action=delete&id=<?= $row['id'] ?>" class="text-red-500 font-bold hover:underline" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
+                                <a href="?page=edit_user&email=<?= $row['email'] ?>" class="text-blue-600 font-bold hover:underline mr-3">Edit</a>
+                                <a href="?page=kelola_user&action=delete&email=<?= $row['email'] ?>" class="text-red-500 font-bold hover:underline" onclick="return confirm('Yakin ingin menghapus akun ini?')">Hapus</a>
                             </td>
                         </tr>
                         <?php endwhile; ?>
@@ -125,13 +126,16 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
         <?php elseif($page == 'edit_user'): ?>
             <?php 
-            $id = $_GET['id']; 
-            $q = mysqli_query($conn, "SELECT * FROM users WHERE id='$id'"); 
+            // Mengambil data user berdasarkan Email
+            $email_edit = $_GET['email']; 
+            $q = mysqli_query($conn, "SELECT * FROM users WHERE email='$email_edit'"); 
             $d = mysqli_fetch_assoc($q); 
             ?>
             <h1 class="text-2xl md:text-3xl font-bold mb-6 text-gray-800">Edit Data Pengguna</h1>
             <form action="" method="POST" class="bg-white p-6 md:p-8 rounded-lg shadow max-w-lg border-t-4 border-blue-600">
-                <input type="hidden" name="id" value="<?= $d['id'] ?>">
+                
+                <input type="hidden" name="email_lama" value="<?= $d['email'] ?>">
+                
                 <div class="mb-4">
                     <label class="block font-bold mb-1">Nama Lengkap</label>
                     <input type="text" name="nama" value="<?= $d['nama'] ?>" required class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
