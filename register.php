@@ -38,7 +38,7 @@ if(isset($_POST['register'])) {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[url('rajaampat.jpg')] bg-cover flex items-center justify-center h-screen text-white">
-    <div class="bg-black/50 backdrop-blur-md p-10 rounded-2xl shadow-2xl w-full max-w-md">
+    <div class="bg-black/50 backdrop-blur-md p-8 md:p-10 rounded-2xl shadow-2xl w-11/12 max-w-md border border-white/10">
         <h1 class="text-3xl font-bold text-center mb-6">Daftar Akun Nusa<span class="text-blue-400">Go</span></h1>
         
         <?php if($pesan): ?>
