@@ -1,3 +1,11 @@
+<?php 
+// Kita sudah beralih menggunakan Cookie
+if(isset($_GET['logout'])) {
+    setcookie("user_nama", "", time() - 3600, "/");
+    setcookie("role", "", time() - 3600, "/");
+    header("Location: index.html"); 
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -6,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinasi - NusaGo</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body style="background-color: #f4f7f6; margin: 0; padding: 0;">
 
@@ -65,6 +74,18 @@
             </div>
         </section>
     </div>
+
+    <section style="padding: 40px 50px 80px 50px; background-color: #e6f0fa; margin-top: 20px;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="font-size: 2.2rem; color: #0a192f; margin-bottom: 10px;">Tren Pariwisata Indonesia</h2>
+            <p style="color: #6b7280; font-size: 1.1rem; max-width: 700px; margin: 0 auto;">Data jumlah kunjungan wisatawan mancanegara (Sumber: BPS). Jadikan referensi untuk melihat destinasi mana yang sedang naik daun!</p>
+        </div>
+        <div style="max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+            <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="wisataChartPublic"></canvas>
+            </div>
+        </div>
+    </section>
 
     <section style="padding: 60px 50px 100px 50px; background-color: #ffffff;">
         <div style="text-align: center; margin-bottom: 50px;">
@@ -130,5 +151,55 @@
     </footer>
 
     <script src="script.js"></script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Kita memanggil file data_bps.php yang sudah aman
+        fetch('data_bps.php')
+            .then(response => response.json())
+            .then(data => {
+                const pintuUtama = [2, 3, 4, 5, 6]; 
+                const labelsBandara = [];
+                const dataKunjungan = [];
+
+                if(data && data.vervar) {
+                    data.vervar.forEach(item => {
+                        // Ubah ke angka agar aman dari bug BPS
+                        const valAngka = parseInt(item.val);
+                        
+                        if(pintuUtama.includes(valAngka)) {
+                            labelsBandara.push(item.label.replace(/(<([^>]+)>)/gi, ""));
+                            const kodeBPS = item.val + "115001261"; 
+                            const jumlah = data.datacontent[kodeBPS] ? data.datacontent[kodeBPS] : 0;
+                            dataKunjungan.push(jumlah);
+                        }
+                    });
+
+                    // Menggambar ke elemen kanvas yang baru kita buat
+                    const ctx = document.getElementById('wisataChartPublic').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labelsBandara,
+                            datasets: [{
+                                label: 'Jumlah Kedatangan Wisman (Jiwa)',
+                                data: dataKunjungan,
+                                backgroundColor: 'rgba(0, 86, 179, 0.8)', // Warna biru NusaGo
+                                borderColor: 'rgba(0, 61, 130, 1)',
+                                borderWidth: 1,
+                                borderRadius: 6
+                            }]
+                        },
+                        options: { 
+                            maintainAspectRatio: false,
+                            responsive: true, 
+                            scales: { y: { beginAtZero: true } } 
+                        }
+                    });
+                }
+            })
+            .catch(error => console.error('Gagal memuat grafik BPS:', error));
+    });
+    </script>
 </body>
 </html>
